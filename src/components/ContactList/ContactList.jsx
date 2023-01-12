@@ -12,32 +12,35 @@ import { getContacts, getFilter } from '../../redux/selectors';
 
 const ContactList = () => {
   const dispatch = useDispatch();
+
   const { contacts } = useSelector(getContacts);
-  console.log(contacts);
+
+  // console.log(useSelector(getContacts));
+
   const stateFilter = useSelector(getFilter);
 
-  const getFilterChange = () => {
-    const normalizedFilter = stateFilter.filters.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-  const filterNames = getFilterChange();
+  const filterNames = contacts.filter(contact => {
+    return contact.name
+      .toLowerCase()
+      .includes(stateFilter.filters.toLowerCase());
+  });
 
+  console.log(filterNames);
   return (
     <Contacts>
-      {filterNames.map(({ id, name, number }) => (
-        <ContactItem key={id}>
-          <ContactText>
-            {name}: {number}
-          </ContactText>
-          <div>
-            <DeleteBtn type="button" onClick={() => dispatch(deleteTask(id))}>
-              Delete
-            </DeleteBtn>
-          </div>
-        </ContactItem>
-      ))}
+      {filterNames.length > 0 &&
+        filterNames.map(({ id, name, number }) => (
+          <ContactItem key={id}>
+            <ContactText>
+              {name}: {number}
+            </ContactText>
+            <div>
+              <DeleteBtn type="button" onClick={() => dispatch(deleteTask(id))}>
+                Delete
+              </DeleteBtn>
+            </div>
+          </ContactItem>
+        ))}
     </Contacts>
   );
 };

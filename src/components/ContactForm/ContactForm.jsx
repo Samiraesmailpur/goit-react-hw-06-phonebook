@@ -13,7 +13,8 @@ const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const { contacts } = useSelector(getContacts);
+  // const { contacts } = useSelector(getContacts);
+  const contacts = Object.values(useSelector(getContacts));
 
   const checkIfNameIsUnique = name => {
     return contacts.every(contact => {
